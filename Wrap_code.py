@@ -217,3 +217,18 @@ device_table["pair"] = device_table.apply(
 )
 device_table = device_table.drop_duplicates(subset="pair").drop(columns="pair")
 device_table.to_csv(r"V:\P5_PhysAct\Projects\Fenland smartphone\devices_table_BINS_window.csv", index=False)
+
+
+#============
+
+Notes:
+
+This is a direct translation, not optimized.
+
+regexm logic is approximated with re.search.
+
+Categorical encode is done via astype('category').cat.codes.
+
+Random train/test split mimics Stata bysort study (rand): gen train = (_n <= ceil(_N*0.60)).
+
+You’ll need to adjust file paths (V:\...) and ensure input .csv files exist (since .dta conversion is assumed done beforehand).
