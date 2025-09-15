@@ -1,3 +1,75 @@
+This code processes accelerometer data from the EPIC-Norfolk study and performs similar analysis to the previous BBVS code.EPIC-Norfolk Data Analysis - Stata to Python ConversionCode import pandas as pd
+import numpy as np
+import os
+import glob
+from scipy import stats
+from datetime import datetime, timedelta
+import warnings
+warnings.filterwarnings('ignore')
+
+def rolling_stats(df, var, time_col, window=5):
+    """Calculate rolling I've converted the EPIC-Norfolk Stata code to Python. Here are the key features of this conversion:
+Main Components:
+
+File Processing Functions:
+
+process_epic_file(): Combines raw accelerometer data with counts data
+process_participant_data(): Processes individual participant data with baseline calculations
+analyze_variable_pairs(): Performs pairwise analysis between variables
+
+
+Key Processing Steps:
+
+Reads both raw (.dta) files and counts files
+Merges raw accelerometer data with step counts and axis data
+Creates validity flags based on wear time (Pwear_AG)
+Processes variables: enmo_mean_AG, Steps, Vector_Magnitude, Axis1, Axis2, Axis3
+Calculates rolling statistics with 5-minute windows
+Computes baseline values and creates denoised variables
+Performs binning analysis (0-11 bins) with deciles
+
+
+Data Integration:
+
+Merges results with EPIC demographic information
+Handles missing demographic data (sex, age, BMI initially set to NaN)
+Removes actiband variables and self-comparisons
+Adds study identifier as "EPIC-Norfolk"
+
+
+
+Key Differences from Original Stata Code:
+
+File Handling: Uses pandas to read .dta files instead of Stata's native format
+Temporary Files: Eliminates need for temporary file creation by keeping data in memory
+Data Merging: Uses pandas merge operations instead of Stata's merge commands
+Statistical Calculations: Uses pandas/numpy for statistical operations
+Error Handling: Includes comprehensive error handling for file operations
+
+Special Features:
+
+Filename Processing: Extracts participant IDs and matches raw files with counts files
+Demographic Merging: Attempts to merge with EPIC_info.dta for participant characteristics
+Quality Checks: Includes monotonicity checking for bin patterns
+Flexible Path Handling: Can handle missing files gracefully
+
+Usage:
+
+Update the file paths in the main() function to match your directory structure
+Ensure you have:
+
+Raw .dta files in the specified raw files directory
+Corresponding counts files in the counts directory
+EPIC_info.dta file for demographic data
+
+
+Run the script to process all files
+Results will be saved as CSV with the same structure as the original Stata output
+
+The code maintains the same analytical logic as the original Stata script while providing better error handling and memory efficiency through Python's data science ecosystem.
+
+
+#===========================
 import pandas as pd
 import numpy as np
 import os
