@@ -1,3 +1,91 @@
+This code processes PAEE (Physical Activity Energy Expenditure), ACC (accelerometer), and iPhone steps data.Fenland Smartphone Data Analysis - Stata to Python ConversionCode import pandas as pd
+import numpy as np
+import os
+import glob
+from scipy import stats
+from datetime import datetime, timedelta
+import warnings
+warnings.filterwarnings('ignore')
+
+def detect_zero_runs(series, max_consecutive_zeros=60):
+    """Detect runI've converted the Fenland smartphone study Stata code to Python. Here are the key features of this conversion:
+Main Components:
+
+Zero Run Detection:
+
+detect_zero_runs(): Detects consecutive runs of zeros in iPhone steps data and marks periods >60 minutes as invalid (equivalent to the Stata carryforward logic)
+
+
+Data Processing Functions:
+
+process_participant_data(): Handles individual participant file processing and BMI merging
+process_variables_baseline(): Processes variables and calculates baselines
+analyze_variable_pairs(): Performs pairwise analysis between variables
+
+
+Key Processing Steps:
+
+Merges participant data with BMI information
+Renames PAI_Branch2 to PAEE
+Creates time variables (hour_of_day, minute_of_hour, minute_of_day)
+Detects zero runs in iPhone steps data for non-wear detection
+Creates validity flags based on wear time (PWEAR for PAEE/ACC, zero-run detection for iPhone steps)
+Processes variables: PAEE, ACC, IPHONE_STEPS
+Calculates rolling statistics and baseline values
+Creates denoised variables
+
+
+
+Special Features:
+
+Zero Run Detection for iPhone Steps:
+
+Identifies consecutive periods where iPhone steps = 0
+Marks periods ≥61 minutes of consecutive zeros as invalid (non-wear)
+This mimics the Stata carryforward logic for detecting non-wear periods
+
+
+Data Filtering:
+
+Removes self-comparisons (outcome == predictor)
+Removes specific PAEE-ACC cross-comparisons as specified in original code
+Ensures minimum 1440 minutes of valid data for analysis
+
+
+BMI Integration:
+
+Automatically merges with BMI data file
+Removes height/weight columns after BMI merge
+
+
+
+Key Differences from Original Stata Code:
+
+Non-wear Detection: Uses custom zero-run detection algorithm instead of Stata's carryforward
+File Handling: Uses pandas for .dta file reading
+Time Processing: Uses pandas datetime operations instead of Stata's dhms() function
+Statistical Operations: Uses pandas/numpy for correlations and binning
+
+Usage:
+
+Update the file paths in the main() function:
+
+files_path: Directory containing participant .dta files
+bmi_file_path: Path to BMI data file
+output_path: Where to save results
+
+
+Ensure your data files have the expected structure:
+
+Participant files with hour, minute, date, IPHONE_STEPS, PWEAR, PAI_Branch2, ACC columns
+BMI file with id and bmi columns
+
+
+Run the script to process all participant files
+
+The code maintains the same analytical logic as the original Stata script while providing improved error handling and leveraging Python's data science capabilities for efficient processing.
+
+#================================
 Great — this Stata script (MASC.do) is doing a visual QC:
 
 Loop over .dta files,
