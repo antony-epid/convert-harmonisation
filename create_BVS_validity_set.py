@@ -174,6 +174,7 @@ merged = dlw_df.merge(df_all, on="id", how="inner")
 # 8. Save final processed dataset
 # -------------------------------------------------------------------
 pyreadstat.write_dta(merged, FINAL_OUT)
+merged.to_csv(FINAL_OUT_CSV, index=False)
 
 🔑 Key Notes:
 
